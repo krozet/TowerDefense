@@ -47,9 +47,7 @@ public class WaveSpawner : MonoBehaviour {
 			Debug.LogError("No spawn points referenced.");
 		}
 
-		waveCountdown = timeBetweenWaves;
-        updateWaveCountdownTimer();
-
+		waveCountdown = timeBetweenWaves;   
     }
 
     void Update()
