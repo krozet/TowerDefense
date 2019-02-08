@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class WaveSpawner : MonoBehaviour {
 
@@ -24,6 +25,7 @@ public class WaveSpawner : MonoBehaviour {
 	public Transform[] spawnPoints;
 
 	public float timeBetweenWaves = 5f;
+    public Text waveCountdownText;
 	private float waveCountdown;
 	public float WaveCountdown
 	{
@@ -46,11 +48,15 @@ public class WaveSpawner : MonoBehaviour {
 		}
 
 		waveCountdown = timeBetweenWaves;
-	}
+        updateWaveCountdownTimer();
 
-	void Update()
+    }
+
+    void Update()
 	{
-		if (state == SpawnState.WAITING)
+        updateWaveCountdownTimer();
+
+        if (state == SpawnState.WAITING)
 		{
 			if (!EnemyIsAlive())
 			{
@@ -71,9 +77,10 @@ public class WaveSpawner : MonoBehaviour {
 		}
 		else
 		{
-			waveCountdown -= Time.deltaTime;
+            waveCountdown -= Time.deltaTime;
 		}
-	}
+
+     }
 
 	void WaveCompleted()
 	{
@@ -101,7 +108,6 @@ public class WaveSpawner : MonoBehaviour {
 			searchCountdown = 1f;
 			if (GameObject.FindGameObjectWithTag("Enemy") == null)
 			{
-                Debug.Log("No enemies found");
 				return false;
 			}
 		}
@@ -129,7 +135,17 @@ public class WaveSpawner : MonoBehaviour {
 		Debug.Log("Spawning Enemy: " + _enemy.name);
 
 		Transform _sp = spawnPoints[0];
-		Instantiate(_enemy, _sp.position, _sp.rotation);
-	}
+        Instantiate(_enemy, _sp.position, _sp.rotation);
+    }
+
+    void updateWaveCountdownTimer() {
+        float countdown = Mathf.Floor(waveCountdown);
+
+        if (state == SpawnState.COUNTING && countdown > 0) {
+            waveCountdownText.text = countdown.ToString();
+        } else {
+            waveCountdownText.text = "";
+        }
+    }
 
 }
