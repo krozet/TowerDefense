@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 802590328790948117}
   m_Layer: 0
   m_Name: FirePoint
-  m_TagString: Untagged
+  m_TagString: FirePoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -109,7 +109,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   range: 15
   fireRate: 1
-  partToRotate: {fileID: 1737882392715532835}
   bulletPrefab: {fileID: 7797268845426926599, guid: 2848734c18d2e45409bbada7577e093a,
     type: 3}
   firePoint: {fileID: 802590328790948117}

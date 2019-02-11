@@ -1,28 +1,57 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+
+public static class Helper {
+
+    public static T FindComponentInChildWithTag<T>(this GameObject parent, string tag) where T : Component {
+        if (parent != null) {
+            Transform t = parent.transform;
+            foreach (Transform tr in t) {
+                if (tr.tag == tag) {
+                    return tr.GetComponent<T>();
+                }
+            }
+        }
+        return null;
+    }
+
+    public static T FindComponentInChildWithTag<T>(this Transform parent, string tag) where T : Component {
+        if (parent != null) {
+            foreach (Transform tr in parent) {
+                if (tr.tag == tag) {
+                    return tr.GetComponent<T>();
+                }
+            }
+        }
+        return null;
+    }
+}
 
 public class TowerSpecs : MonoBehaviour
 {
-
-
     [Header("Specs")]
     public float range = 15f;
     public float fireRate = 1f;
 
     [Header("Unity Setup Fields")]
-    public Transform partToRotate;
     public GameObject bulletPrefab;
-    public Transform firePoint;
 
+    private Transform firePoint;
+    private Transform partToRotate;
     private Transform target;
     private string enemyTag = "Enemy";
     private float fireCountdown = 0f;
 
+    private void Awake() {
+        Debug.Log("Awake is called.");
+        partToRotate = this.gameObject.FindComponentInChildWithTag<Transform>("PartToRotate");
+        firePoint = partToRotate.FindComponentInChildWithTag<Transform>("FirePoint");
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        InvokeRepeating("UpdateTarget", 0f, 0.5f);
+        //InvokeRepeating("UpdateTarget", 0f, 0.5f);
+        Debug.Log("Start is called.");
     }
 
     private void Update() {
@@ -62,11 +91,13 @@ public class TowerSpecs : MonoBehaviour
     }
 
     void AimAtEnemy() {
-        float damping = 10f;
-        Vector3 dir = target.position - this.transform.position;
-        Quaternion lookRotation = Quaternion.LookRotation(dir);
-        Vector3 rotation = Quaternion.Lerp(partToRotate.rotation, lookRotation, Time.deltaTime * damping).eulerAngles;
-        partToRotate.rotation = Quaternion.Euler(0f, rotation.y, 0f);
+        if (partToRotate != null) {
+            float damping = 10f;
+            Vector3 dir = target.position - this.transform.position;
+            Quaternion lookRotation = Quaternion.LookRotation(dir);
+            Vector3 rotation = Quaternion.Lerp(partToRotate.rotation, lookRotation, Time.deltaTime * damping).eulerAngles;
+            partToRotate.rotation = Quaternion.Euler(0f, rotation.y, 0f);
+        }
     }
 
     void CheckFireRate() {
@@ -79,11 +110,13 @@ public class TowerSpecs : MonoBehaviour
     }
 
     void Shoot() {
-        GameObject bulletGO = (GameObject) Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-        Bullet bullet = bulletGO.GetComponent<Bullet>();
+        if (firePoint != null) {
+            GameObject bulletGO = (GameObject)Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+            Bullet bullet = bulletGO.GetComponent<Bullet>();
 
-        if (bullet != null) {
-            bullet.Seek(target);
+            if (bullet != null) {
+                bullet.Seek(target);
+            }
         }
     }
 }
