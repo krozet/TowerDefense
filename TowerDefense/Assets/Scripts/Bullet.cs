@@ -3,8 +3,10 @@
 public class Bullet : MonoBehaviour
 {
 
-    private Transform target;
     public float speed = 70f;
+    public GameObject impactEffect;
+    private Transform target;
+
 
     public void Seek(Transform _target) {
         target = _target;
@@ -31,6 +33,8 @@ public class Bullet : MonoBehaviour
     }
 
     void HitTarget() {
+        GameObject effectInstance = (GameObject) Instantiate(impactEffect, this.transform.position, this.transform.rotation);
+        Destroy(effectInstance, 2f);
         Destroy(gameObject);
     }
 }
