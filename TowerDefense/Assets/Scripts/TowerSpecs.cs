@@ -18,7 +18,7 @@ public class TowerSpecs : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        InvokeRepeating("UpdateTarget", 0f, 0.5f);
+        InvokeRepeating("UpdateTarget", 0f, 0.2f);
     }
 
     private void Update() {
