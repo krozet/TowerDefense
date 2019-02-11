@@ -2,11 +2,18 @@
 
 public class TowerSpecs : MonoBehaviour
 {
-
-    private Transform target;
+    [Header("Specs")]
     public float range = 15f;
-    public string enemyTag = "Enemy";
+    public float fireRate = 1f;
+
+    [Header("Unity Setup Fields")]
+    public GameObject bulletPrefab;
     public Transform partToRotate;
+    public Transform firePoint;
+
+    private float fireCountdown = 0f;
+    private string enemyTag = "Enemy";
+    private Transform target;
 
     // Start is called before the first frame update
     void Start()
@@ -20,6 +27,7 @@ public class TowerSpecs : MonoBehaviour
         }
 
         AimAtEnemy();
+        CheckFireCooldown();
     }
 
     void UpdateTarget()
@@ -47,6 +55,23 @@ public class TowerSpecs : MonoBehaviour
     private void OnDrawGizmosSelected() {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(this.transform.position, range);
+    }
+
+    private void CheckFireCooldown() {
+        if (fireCountdown <= 0f) {
+            Shoot();
+            fireCountdown = 1f / fireRate;
+        }
+
+        fireCountdown -= Time.deltaTime;
+    }
+
+    void Shoot() {
+        GameObject bulletGO = (GameObject)Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+        Bullet bullet = bulletGO.GetComponent<Bullet>();
+
+        //if (bullet != null)
+            //bullet.Seek(target);
     }
 
     void AimAtEnemy() {
