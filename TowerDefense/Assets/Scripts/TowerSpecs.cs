@@ -70,8 +70,8 @@ public class TowerSpecs : MonoBehaviour
         GameObject bulletGO = (GameObject)Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
         Bullet bullet = bulletGO.GetComponent<Bullet>();
 
-        //if (bullet != null)
-            //bullet.Seek(target);
+        if (bullet != null)
+            bullet.Seek(target);
     }
 
     void AimAtEnemy() {
