@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4062040830910064}
   - component: {fileID: 33422181725701348}
   - component: {fileID: 23269494946486598}
+  - component: {fileID: 768356748053870092}
   m_Layer: 0
   m_Name: floor_green
   m_TagString: Untagged
@@ -77,3 +78,16 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!65 &768356748053870092
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1420298876104084}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.49, y: 0.6781822, z: 3.49}
+  m_Center: {x: 0, y: 0, z: 0}
